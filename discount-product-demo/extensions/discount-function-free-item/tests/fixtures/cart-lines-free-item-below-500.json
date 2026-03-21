@@ -9,14 +9,19 @@
             "id": "gid://shopify/CartLine/0",
             "cost": {
               "subtotalAmount": {
-                "amount": "100.0"
+                "amount": "300.0"
+              }
+            },
+            "merchandise": {
+              "product": {
+                "hasAnyTag": true
               }
             }
           }
         ]
       },
       "discount": {
-        "discountClasses": []
+        "discountClasses": ["PRODUCT"]
       }
     },
     "output": {

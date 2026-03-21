@@ -31,63 +31,56 @@ export function cartLinesDiscountsGenerateRun(input) {
     return {operations: []};
   }
 
-  const maxCartLine = input.cart.lines.reduce((maxLine, line) => {
-    if (line.cost.subtotalAmount.amount > maxLine.cost.subtotalAmount.amount) {
-      return line;
-    }
-    return maxLine;
-  }, input.cart.lines[0]);
+  // Calculate total cart subtotal
+  const cartSubtotal = input.cart.lines.reduce((total, line) => {
+    return total + parseFloat(line.cost.subtotalAmount.amount);
+  }, 0);
 
   const operations = [];
 
-  if (hasOrderDiscountClass) {
-    operations.push({
-      orderDiscountsAdd: {
-        candidates: [
-          {
-            message: '10% OFF ORDER',
-            targets: [
-              {
-                orderSubtotal: {
-                  excludedCartLineIds: [],
-                },
-              },
-            ],
-            value: {
-              percentage: {
-                value: 10,
-              },
-            },
-          },
-        ],
-        selectionStrategy: OrderDiscountSelectionStrategy.First,
-      },
-    });
-  }
-
   if (hasProductDiscountClass) {
-    operations.push({
-      productDiscountsAdd: {
-        candidates: [
-          {
-            message: '20% OFF PRODUCT',
-            targets: [
+    // Only apply product discount if cart subtotal is $500 or more
+    if (cartSubtotal >= 500) {
+      // Filter products with "Free Item" tag
+      const freeItemLines = input.cart.lines.filter(line => {
+        if (line.merchandise && line.merchandise.product && line.merchandise.product.hasAnyTag) {
+          return line.merchandise.product.hasAnyTag;
+        }
+        return false;
+      });
+
+      // If there are products with "Free Item" tag, find the cheapest one
+      if (freeItemLines.length > 0) {
+        const cheapestFreeItemLine = freeItemLines.reduce((cheapest, line) => {
+          const lineAmount = parseFloat(line.cost.subtotalAmount.amount);
+          const cheapestAmount = parseFloat(cheapest.cost.subtotalAmount.amount);
+          return lineAmount < cheapestAmount ? line : cheapest;
+        }, freeItemLines[0]);
+
+        operations.push({
+          productDiscountsAdd: {
+            candidates: [
               {
-                cartLine: {
-                  id: maxCartLine.id,
+                message: '100% OFF FREE ITEM',
+                targets: [
+                  {
+                    cartLine: {
+                      id: cheapestFreeItemLine.id,
+                    },
+                  },
+                ],
+                value: {
+                  percentage: {
+                    value: 100,
+                  },
                 },
               },
             ],
-            value: {
-              percentage: {
-                value: 20,
-              },
-            },
+            selectionStrategy: ProductDiscountSelectionStrategy.First,
           },
-        ],
-        selectionStrategy: ProductDiscountSelectionStrategy.First,
-      },
-    });
+        });
+      }
+    }
   }
 
   return {
