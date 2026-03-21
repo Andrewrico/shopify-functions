@@ -6,6 +6,9 @@ query CartInput {
         subtotalAmount {
           amount
         }
+        amountPerQuantity {
+          amount
+        }
       }
       merchandise {
         ... on ProductVariant {
