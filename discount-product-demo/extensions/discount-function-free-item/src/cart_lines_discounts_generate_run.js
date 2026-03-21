@@ -4,7 +4,6 @@ import {
   ProductDiscountSelectionStrategy,
 } from '../generated/api';
 
-
 /**
   * @typedef {import("../generated/api").CartInput} RunInput
   * @typedef {import("../generated/api").CartLinesDiscountsGenerateRunResult} CartLinesDiscountsGenerateRunResult
@@ -39,16 +38,41 @@ export function cartLinesDiscountsGenerateRun(input) {
   const operations = [];
 
   if (hasProductDiscountClass) {
-    // Only apply product discount if cart subtotal is $500 or more
-    if (cartSubtotal >= 500) {
-      // Filter products with "Free Item" tag
-      const freeItemLines = input.cart.lines.filter(line => {
-        if (line.merchandise && line.merchandise.product && line.merchandise.product.hasAnyTag) {
-          return line.merchandise.product.hasAnyTag;
-        }
-        return false;
-      });
+    // Filter products with "Free Item" tag
+    const freeItemLines = input.cart.lines.filter(line => {
+      if (line.merchandise && line.merchandise.product && line.merchandise.product.hasAnyTag) {
+        return line.merchandise.product.hasAnyTag;
+      }
+      return false;
+    });
 
+    // Check if any Free Item already has a discount applied
+    const hasExistingDiscount = freeItemLines.some(line => {
+      // Check if the line has any discount allocations
+      return line.cost.discountAllocations && line.cost.discountAllocations.length > 0;
+    });
+
+    // If there are existing discounts, remove them first
+    if (hasExistingDiscount) {
+      freeItemLines.forEach(line => {
+        if (line.cost.discountAllocations && line.cost.discountAllocations.length > 0) {
+          operations.push({
+            productDiscountsRemove: {
+              targets: [
+                {
+                  cartLine: {
+                    id: line.id,
+                  },
+                },
+              ],
+            },
+          });
+        }
+      });
+    }
+
+    // Only apply product discount if cart subtotal is $500 or more AND no Free Item is currently discounted
+    if (cartSubtotal >= 500 && !hasExistingDiscount) {
       // If there are products with "Free Item" tag, find the cheapest one
       if (freeItemLines.length > 0) {
         const cheapestFreeItemLine = freeItemLines.reduce((cheapest, line) => {
@@ -81,6 +105,8 @@ export function cartLinesDiscountsGenerateRun(input) {
         });
       }
     }
+    // If cart subtotal is below $500, don't apply any discount
+    // This effectively removes the discount when conditions are no longer met
   }
 
   return {
