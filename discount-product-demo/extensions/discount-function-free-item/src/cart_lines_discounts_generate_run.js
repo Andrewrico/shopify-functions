@@ -58,6 +58,7 @@ export function cartLinesDiscountsGenerateRun(input) {
     const cheapestUnitPrice = parseFloat(cheapest.cost.amountPerQuantity.amount);
     return lineUnitPrice < cheapestUnitPrice ? line : cheapest;
   }, freeItemLines[0]);
+  
 
   return {
     operations: [
@@ -65,7 +66,7 @@ export function cartLinesDiscountsGenerateRun(input) {
         productDiscountsAdd: {
           candidates: [
             {
-              message: '100% OFF FREE ITEM',
+              message: 'SAVE 100%',
               targets: [
                 {
                   cartLine: {
