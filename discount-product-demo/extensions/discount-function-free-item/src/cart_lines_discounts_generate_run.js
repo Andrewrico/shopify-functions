@@ -90,7 +90,7 @@ export function cartLinesDiscountsGenerateRun(input) {
         productDiscountsAdd: {
           candidates: [
             {
-              message: 'SAVE 100%',
+              message: 'Spend $500 and Get it 100% FREE',
               targets: [
                 {
                   cartLine: {
