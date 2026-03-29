@@ -1,0 +1,20 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Product Discount — Quantity & Collection"
+handle = "product-discount"
+uid = "d0f68f29-1841-f67e-43fd-d817ad592eda03aa57c0"
+type = "function"
+description = "Applies percentage discounts to cart lines based on quantity thresholds and/or collection membership. Fully configurable via discount metafields."
+
+  [[extensions.targeting]]
+  target = "cart.lines.discounts.generate.run"
+  input_query = "src/product_discount_run.graphql"
+  export = "product-discount-run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"
+
+  [extensions.capabilities]
+  autoapply = false

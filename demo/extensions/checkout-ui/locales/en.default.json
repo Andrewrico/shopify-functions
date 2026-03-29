@@ -1,0 +1,26 @@
+{
+  "freeShipping": {
+    "achieved": "You qualify for FREE shipping!",
+    "progress": "Add {{remaining}} more for free shipping",
+    "threshold": "Free shipping on orders over {{threshold}}"
+  },
+  "discount": {
+    "applied": "{{percentage}}% discount applied to your order!",
+    "banner": "Special offer active on this order"
+  },
+  "shippingProtection": {
+    "label": "Add Shipping Protection",
+    "description": "Protect your order against loss, damage, or theft in transit",
+    "added": "Shipping protection added",
+    "price": "{{price}}"
+  },
+  "notes": {
+    "label": "Order notes (optional)",
+    "placeholder": "Special instructions for your order..."
+  },
+  "preferences": {
+    "label": "Delivery preferences",
+    "leaveAtDoor": "Leave at door if no one home",
+    "requireSignature": "Require signature on delivery"
+  }
+}

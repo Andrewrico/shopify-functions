@@ -1,0 +1,17 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Payment Customization — Method Rules"
+handle = "payment-customization"
+uid = "4f8a281d-8599-ed4f-dd32-1297c2872b96939fbf00"
+type = "function"
+description = "Hides or reorders payment methods based on cart value, buyer country, and configurable rules. Prevents COD and other high-risk methods from appearing for flagged orders."
+
+  [[extensions.targeting]]
+  target = "purchase.payment-customization.run"
+  input_query = "src/payment_customization_run.graphql"
+  export = "payment-customization-run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"

@@ -1,0 +1,17 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Cart Transform — Bundle & Gift Logic"
+handle = "cart-transform"
+uid = "723515e5-bc2e-45c6-6942-564c29099db8e998c0bc"
+type = "function"
+description = "Expands bundle products into their components, or merges individual items into a bundle with a discount. Auto-adds a configurable free gift variant when cart subtotal meets a threshold."
+
+  [[extensions.targeting]]
+  target = "cart.transform.run"
+  input_query = "src/cart_transform_run.graphql"
+  export = "cart-transform-run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"

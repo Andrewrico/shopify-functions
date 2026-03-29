@@ -1,0 +1,42 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Cart UI — Upsells & Bundle Suggestions"
+handle = "cart-ui"
+uid = "8e65fc2e-3c8e-5152-31ae-3f72539125a429defb86"
+type = "ui_extension"
+
+  [[extensions.targeting]]
+  module = "./src/index.jsx"
+  target = "purchase.cart.render-after"
+
+  [extensions.settings]
+    [[extensions.settings.fields]]
+    key = "upsell_variant_id"
+    type = "single_line_text_field"
+    name = "Upsell product variant GID"
+    description = "The variant to suggest as an upsell (e.g. gid://shopify/ProductVariant/123)"
+
+    [[extensions.settings.fields]]
+    key = "upsell_title"
+    type = "single_line_text_field"
+    name = "Upsell title"
+    description = "Short title shown in the upsell card"
+
+    [[extensions.settings.fields]]
+    key = "upsell_description"
+    type = "single_line_text_field"
+    name = "Upsell description"
+    description = "One-line description shown in the upsell card"
+
+    [[extensions.settings.fields]]
+    key = "upsell_price"
+    type = "number_decimal"
+    name = "Upsell price (display only)"
+    description = "Displayed price for the upsell product"
+
+    [[extensions.settings.fields]]
+    key = "bundle_threshold"
+    type = "number_decimal"
+    name = "Bundle suggestion threshold"
+    description = "Show bundle suggestion when cart subtotal is above this amount"

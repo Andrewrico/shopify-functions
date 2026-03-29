@@ -1,0 +1,21 @@
+query OrderDiscountInput {
+  cart {
+    cost {
+      subtotalAmount {
+        amount
+        currencyCode
+      }
+    }
+  }
+  discount {
+    discountClasses
+    # JSON array of tier objects: [{"threshold": 100, "percentage": 10}, {"threshold": 200, "percentage": 20}]
+    tiers: metafield(namespace: "configuration", key: "tiers") {
+      value
+    }
+    # Optional: user-facing message template, use {{percentage}} and {{threshold}} tokens
+    messageTemplate: metafield(namespace: "configuration", key: "message_template") {
+      value
+    }
+  }
+}

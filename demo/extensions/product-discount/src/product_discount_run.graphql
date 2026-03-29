@@ -1,0 +1,50 @@
+query ProductDiscountInput {
+  cart {
+    lines {
+      id
+      quantity
+      cost {
+        subtotalAmount {
+          amount
+        }
+        amountPerQuantity {
+          amount
+        }
+      }
+      merchandise {
+        ... on ProductVariant {
+          id
+          product {
+            id
+            tags
+            collections(first: 10) {
+              nodes {
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  discount {
+    discountClasses
+    # Minimum quantity to qualify for the discount
+    quantityThreshold: metafield(namespace: "configuration", key: "quantity_threshold") {
+      value
+    }
+    # Discount percentage to apply (0-100)
+    percentage: metafield(namespace: "configuration", key: "percentage") {
+      value
+    }
+    # Shopify GID of the target collection (optional — omit to apply to all products)
+    collectionId: metafield(namespace: "configuration", key: "collection_id") {
+      value
+    }
+    # User-facing discount message shown at checkout
+    discountMessage: metafield(namespace: "configuration", key: "message") {
+      value
+    }
+  }
+}

@@ -1,0 +1,17 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Shipping Customization — Free Shipping & Rate Rules"
+handle = "shipping-customization"
+uid = "05f441cc-b501-a3a8-84d5-cf2fed9125cba1cd9d9e"
+type = "function"
+description = "Renames the cheapest shipping option to 'Free' when cart subtotal meets a threshold. Hides or reorders delivery options based on location and cart rules."
+
+  [[extensions.targeting]]
+  target = "purchase.delivery-customization.run"
+  input_query = "src/shipping_customization_run.graphql"
+  export = "shipping-customization-run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"

@@ -1,0 +1,52 @@
+query CartTransformInput {
+  cart {
+    lines {
+      id
+      quantity
+      cost {
+        subtotalAmount {
+          amount
+        }
+        amountPerQuantity {
+          amount
+        }
+      }
+      merchandise {
+        ... on ProductVariant {
+          id
+          title
+          product {
+            id
+            title
+            tags
+            collections(first: 5) {
+              nodes {
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  cartTransform {
+    # Cart subtotal threshold to auto-add the free gift (e.g. "100")
+    giftThreshold: metafield(namespace: "configuration", key: "gift_threshold") {
+      value
+    }
+    # Shopify GID of the gift variant to add (e.g. "gid://shopify/ProductVariant/123")
+    giftVariantId: metafield(namespace: "configuration", key: "gift_variant_id") {
+      value
+    }
+    # Tag identifying bundle products that should be expanded (e.g. "bundle")
+    bundleTag: metafield(namespace: "configuration", key: "bundle_tag") {
+      value
+    }
+    # JSON array of component variant GIDs for the bundle
+    # e.g. ["gid://shopify/ProductVariant/A", "gid://shopify/ProductVariant/B"]
+    bundleComponents: metafield(namespace: "configuration", key: "bundle_components") {
+      value
+    }
+  }
+}

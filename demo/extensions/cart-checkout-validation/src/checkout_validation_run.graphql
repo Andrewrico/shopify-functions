@@ -1,0 +1,42 @@
+query CheckoutValidationInput {
+  cart {
+    lines {
+      id
+      quantity
+      merchandise {
+        ... on ProductVariant {
+          id
+          title
+          product {
+            id
+            title
+            tags
+            vendor
+          }
+        }
+      }
+    }
+    buyerIdentity {
+      countryCode
+    }
+  }
+  validation {
+    # JSON array of product tags that trigger a checkout block (e.g. ["restricted", "adults-only"])
+    restrictedTags: metafield(namespace: "configuration", key: "restricted_tags") {
+      value
+    }
+    # Maximum quantity allowed per line item (e.g. "10")
+    maxQuantityPerLine: metafield(namespace: "configuration", key: "max_quantity_per_line") {
+      value
+    }
+    # JSON array of [tagA, tagB] pairs that cannot coexist in the cart
+    # e.g. [["alcohol", "age-restricted"], ["fragile", "heavy"]]
+    incompatibleTagPairs: metafield(namespace: "configuration", key: "incompatible_tag_pairs") {
+      value
+    }
+    # JSON array of country codes where age-restricted products are blocked
+    ageRestrictedCountries: metafield(namespace: "configuration", key: "age_restricted_countries") {
+      value
+    }
+  }
+}

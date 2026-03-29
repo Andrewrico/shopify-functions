@@ -1,0 +1,20 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Order Discount — Tiered Spend"
+handle = "order-discount"
+uid = "3dfee65d-f9a6-6dd6-37e5-f13423d290cf6d229b2f"
+type = "function"
+description = "Applies tiered percentage discounts to the entire order based on cart subtotal. Tiers and percentages are configurable via metafields."
+
+  [[extensions.targeting]]
+  target = "order.discounts.generate.run"
+  input_query = "src/order_discount_run.graphql"
+  export = "order-discount-run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"
+
+  [extensions.capabilities]
+  autoapply = false

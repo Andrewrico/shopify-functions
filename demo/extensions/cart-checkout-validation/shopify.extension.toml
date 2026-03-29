@@ -1,0 +1,17 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Cart & Checkout Validation"
+handle = "cart-checkout-validation"
+uid = "9beb9559-a34a-eca2-aa94-2cf3baa77d52afcba76e"
+type = "function"
+description = "Blocks checkout when restricted products are present, quantity limits are exceeded, or incompatible product combinations are detected. Returns user-facing error messages."
+
+  [[extensions.targeting]]
+  target = "purchase.checkout.validation.run"
+  input_query = "src/checkout_validation_run.graphql"
+  export = "checkout-validation-run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"

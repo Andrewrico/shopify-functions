@@ -1,0 +1,36 @@
+query PaymentCustomizationInput {
+  cart {
+    cost {
+      totalAmount {
+        amount
+        currencyCode
+      }
+    }
+    buyerIdentity {
+      countryCode
+    }
+  }
+  paymentCustomization {
+    # JSON array of payment method names to hide (case-insensitive substring match)
+    # e.g. ["Cash on Delivery", "Bank Transfer"]
+    hiddenMethods: metafield(namespace: "configuration", key: "hidden_methods") {
+      value
+    }
+    # Maximum cart value above which COD/risky methods are hidden (e.g. "500")
+    maxCodAmount: metafield(namespace: "configuration", key: "max_cod_amount") {
+      value
+    }
+    # JSON array of country codes where COD is blocked (e.g. ["US", "CA", "AU"])
+    codBlockedCountries: metafield(namespace: "configuration", key: "cod_blocked_countries") {
+      value
+    }
+    # Substring to identify COD methods (e.g. "Cash on Delivery")
+    codKeyword: metafield(namespace: "configuration", key: "cod_keyword") {
+      value
+    }
+  }
+  paymentMethods {
+    id
+    name
+  }
+}

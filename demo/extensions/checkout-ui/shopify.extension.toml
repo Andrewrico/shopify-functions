@@ -1,0 +1,30 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Checkout UI — Dynamic Offers & Shipping Progress"
+handle = "checkout-ui"
+uid = "fddfc370-27c7-c30f-4ee0-a927194e2accadefd40c"
+type = "ui_extension"
+
+  [[extensions.targeting]]
+  module = "./src/index.jsx"
+  target = "purchase.checkout.block.render"
+
+  [extensions.settings]
+    [[extensions.settings.fields]]
+    key = "free_shipping_threshold"
+    type = "number_decimal"
+    name = "Free shipping threshold"
+    description = "Show the free shipping progress bar below this amount (e.g. 75)"
+
+    [[extensions.settings.fields]]
+    key = "banner_message"
+    type = "single_line_text_field"
+    name = "Promotional banner message"
+    description = "Message to display when a discount is active"
+
+    [[extensions.settings.fields]]
+    key = "show_shipping_protection"
+    type = "boolean"
+    name = "Show shipping protection toggle"
+    description = "Offer optional shipping protection at checkout"

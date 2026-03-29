@@ -1,0 +1,45 @@
+query ShippingCustomizationInput {
+  cart {
+    cost {
+      subtotalAmount {
+        amount
+        currencyCode
+      }
+    }
+    deliveryGroups {
+      id
+      deliveryOptions {
+        handle
+        title
+        ... on ShippingOption {
+          cost {
+            amount
+            currencyCode
+          }
+          code
+        }
+      }
+    }
+    buyerIdentity {
+      countryCode
+    }
+  }
+  deliveryCustomization {
+    # Cart subtotal threshold for free shipping (e.g. "75")
+    freeShippingThreshold: metafield(namespace: "configuration", key: "free_shipping_threshold") {
+      value
+    }
+    # Label to show for the free shipping option (e.g. "Free Shipping")
+    freeShippingTitle: metafield(namespace: "configuration", key: "free_shipping_title") {
+      value
+    }
+    # JSON array of country codes where express shipping is hidden (e.g. ["US", "CA"])
+    hiddenExpressCountries: metafield(namespace: "configuration", key: "hidden_express_countries") {
+      value
+    }
+    # Substring to identify express shipping options (e.g. "Express")
+    expressKeyword: metafield(namespace: "configuration", key: "express_keyword") {
+      value
+    }
+  }
+}

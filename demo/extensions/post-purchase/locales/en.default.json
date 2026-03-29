@@ -1,0 +1,16 @@
+{
+  "offer": {
+    "defaultTitle": "Exclusive one-time offer!",
+    "defaultDescription": "Add this to your order with one click — no re-entering payment details.",
+    "discount": "{{percentage}}% OFF",
+    "originalPrice": "Was {{price}}",
+    "acceptButton": "Yes, add to my order!",
+    "declineButton": "No thanks",
+    "processing": "Processing...",
+    "success": "Added to your order!",
+    "thankYou": "Thank you for your order"
+  },
+  "countdown": {
+    "label": "This offer expires in:"
+  }
+}

@@ -1,0 +1,42 @@
+api_version = "2026-01"
+
+[[extensions]]
+name = "Post-Purchase — Order Value Upsell"
+handle = "post-purchase"
+uid = "270b23c2-605f-4beb-e5d9-4fd2d5988b0899ff9d90"
+type = "ui_extension"
+
+  [[extensions.targeting]]
+  module = "./src/index.jsx"
+  target = "purchase.post.checkout.render"
+
+  [extensions.settings]
+    [[extensions.settings.fields]]
+    key = "upsell_variant_id"
+    type = "single_line_text_field"
+    name = "Post-purchase upsell variant GID"
+    description = "Variant to offer after checkout (gid://shopify/ProductVariant/...)"
+
+    [[extensions.settings.fields]]
+    key = "upsell_title"
+    type = "single_line_text_field"
+    name = "Offer title"
+    description = "e.g. 'Exclusive offer just for you!'"
+
+    [[extensions.settings.fields]]
+    key = "upsell_description"
+    type = "single_line_text_field"
+    name = "Offer description"
+    description = "Short product description"
+
+    [[extensions.settings.fields]]
+    key = "upsell_discount_percentage"
+    type = "number_decimal"
+    name = "One-click discount %"
+    description = "Discount applied to post-purchase upsell (e.g. 20)"
+
+    [[extensions.settings.fields]]
+    key = "order_value_threshold"
+    type = "number_decimal"
+    name = "Minimum order value to show upsell"
+    description = "Only show upsell when original order total exceeds this (e.g. 50)"

@@ -1,0 +1,17 @@
+{
+  "upsell": {
+    "heading": "Frequently bought together",
+    "addButton": "Add to cart",
+    "added": "Added!",
+    "save": "Save {{amount}}"
+  },
+  "bundle": {
+    "heading": "Complete the set",
+    "description": "Customers who bought these items also purchased:",
+    "viewBundle": "View bundle deal"
+  },
+  "freeShipping": {
+    "progress": "Add {{remaining}} more to unlock FREE shipping!",
+    "unlocked": "You've unlocked FREE shipping!"
+  }
+}
