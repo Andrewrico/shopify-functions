@@ -1,0 +1,52 @@
+name: Sync Shopify templates
+
+# Weekly, one-way: reads Shopify/extensions-templates, writes this repo. Never pushes upstream.
+# Opens a PR when the templates changed; if Actions can't create PRs (repo setting),
+# pushes the branch and opens an issue with a compare link instead. Never touches main.
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run sync
+      - name: Open PR or issue if templates changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain templates)" ]; then
+            echo "Templates already up to date."
+            exit 0
+          fi
+          sha=$(sed -n 's/^commit: //p' templates/UPSTREAM | cut -c1-7)
+          branch=sync/shopify-templates
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add templates
+          git commit -m "Sync Shopify templates to extensions-templates@$sha"
+          git push --force origin "$branch"
+          body="Automated sync from Shopify/extensions-templates@$sha. CI runs the fixture tests on every template; review the diff before merging."
+          if gh pr create --base main --head "$branch" --title "Sync Shopify templates ($sha)" --body "$body"; then
+            exit 0
+          fi
+          existing=$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #$existing already open; branch updated."
+            exit 0
+          fi
+          gh issue create --title "Shopify templates changed ($sha)" \
+            --body "$body Actions cannot create pull requests here, so compare and open one: https://github.com/${{ github.repository }}/compare/main...$branch?expand=1"

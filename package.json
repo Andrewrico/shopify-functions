@@ -1,0 +1,14 @@
+{
+  "name": "shopify-functions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Starter templates for every Shopify Function type, kept in sync with Shopify's CLI templates.",
+  "scripts": {
+    "sync": "node scripts/sync-templates.mjs",
+    "test": "bash scripts/test-templates.sh"
+  },
+  "devDependencies": {
+    "liquidjs": "^10.21.0"
+  }
+}

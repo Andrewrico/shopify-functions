@@ -1,0 +1,20 @@
+api_version = "unstable"
+
+[[extensions]]
+name = "t:name"
+handle = "local-pickup-delivery-option-generators-js"
+type = "function"
+
+
+  [[extensions.targeting]]
+  target = "purchase.local-pickup-delivery-option-generator.run"
+  input_query = "src/run.graphql"
+  export = "run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"
+
+  [extensions.ui.paths]
+  create = "/"
+  details = "/"

@@ -1,0 +1,7 @@
+query RunInput {
+  shop {
+    metafield(namespace: "$app:discounts-allocator-js", key: "function-configuration") {
+      value
+    }
+  }
+}

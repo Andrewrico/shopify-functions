@@ -1,0 +1,6 @@
+query CartFulfillmentGroupsLocationRankingsGenerateRunInput {
+  fulfillmentGroups {
+    handle
+    inventoryLocationHandles
+  }
+}
