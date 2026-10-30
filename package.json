@@ -9,6 +9,7 @@
     "test": "bash scripts/test-templates.sh"
   },
   "devDependencies": {
+    "@shopify/cli": "^4.9.5",
     "liquidjs": "^10.21.0"
   }
 }
