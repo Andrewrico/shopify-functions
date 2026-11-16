@@ -1,5 +1,6 @@
 import {
   DeliveryDiscountSelectionStrategy,
+  DeliveryMethod,
   DiscountClass,
 } from "../generated/api";
 
@@ -14,16 +15,26 @@ import {
   */
 
 export function cartDeliveryOptionsDiscountsGenerateRun(input) {
-  const firstDeliveryGroup = input.cart.deliveryGroups[0];
-  if (!firstDeliveryGroup) {
-    return {operations: []};
-  }
-
   const hasShippingDiscountClass = input.discount.discountClasses.includes(
     DiscountClass.Shipping,
   );
 
   if (!hasShippingDiscountClass) {
+    return {operations: []};
+  }
+
+  // Discount only the groups with shipping options.
+  const targets = input.cart.deliveryGroups
+    // If you also want to apply a discount for other delivery methods (e.g. LOCAL), ensure to account for that here.
+    .filter(({deliveryOptions}) =>
+      deliveryOptions.some(
+        ({deliveryMethodType}) =>
+          deliveryMethodType === DeliveryMethod.Shipping,
+      ),
+    )
+    .map(({id}) => ({deliveryGroup: {id}}));
+
+  if (targets.length === 0) {
     return {operations: []};
   }
 
@@ -34,13 +45,7 @@ export function cartDeliveryOptionsDiscountsGenerateRun(input) {
           candidates: [
             {
               message: "FREE DELIVERY",
-              targets: [
-                {
-                  deliveryGroup: {
-                    id: firstDeliveryGroup.id,
-                  },
-                },
-              ],
+              targets,
               value: {
                 percentage: {
                   value: 100,
